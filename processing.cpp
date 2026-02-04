@@ -89,15 +89,14 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
   int imHeight = Image_height(img);
   int imWidth = Image_width(img);
   Matrix_init(energy, imWidth, imHeight);
-  Matrix_fill(energy, 0);
 
-  for (int i = 1; i < imHeight-1; ++i){
-    for (int j = 1; j < imWidth-1; j++){
-      Pixel N = Image_get_pixel(img, i-1, j);
-      Pixel S = Image_get_pixel(img, i+1, j);
-      Pixel E = Image_get_pixel(img, i, j+1);
-      Pixel W = Image_get_pixel(img, i, j-1);
-      *Matrix_at(energy, i, j) = squared_difference(N, S) + squared_difference(W, E);
+  for (int row = 1; row < imHeight-1; ++row){
+    for (int col = 1; col < imWidth-1; col++){
+      Pixel N = Image_get_pixel(img, row-1, col);
+      Pixel S = Image_get_pixel(img, row+1, col);
+      Pixel E = Image_get_pixel(img, row, col+1);
+      Pixel W = Image_get_pixel(img, row, col-1);
+      *Matrix_at(energy, row, col) = squared_difference(N, S) + squared_difference(W, E);
     }
   }
   Matrix_fill_border(energy, Matrix_max(energy));
@@ -119,8 +118,8 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
   int least_col=0;
   
   //first fill top row
-  for(int i = 0; i<imWidth; ++i){
-    *Matrix_at(cost, 0 , i) = *Matrix_at(energy, 0, i);
+  for(int col = 0; col<imWidth; ++col){
+    *Matrix_at(cost, 0 , col) = *Matrix_at(energy, 0, col);
   }
 
   for(int row = 1; row<imHeight; row++){
