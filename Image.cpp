@@ -7,7 +7,11 @@
 // EFFECTS:  Initializes the Image with the given width and height, with
 //           all pixels initialized to RGB values of 0.
 void Image_init(Image* img, int width, int height) {
-  assert(false); // TODO Replace with your implementation!
+  img->width = width;
+  img->height = height;
+  Matrix_init(&img->red_channel, width, height);
+  Matrix_init(&img->green_channel, width, height);
+  Matrix_init(&img->blue_channel, width, height);
 }
 
 // REQUIRES: img points to an Image
@@ -18,7 +22,24 @@ void Image_init(Image* img, int width, int height) {
 //           from the given input stream.
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
-  assert(false); // TODO Replace with your implementation!
+  is.ignore();
+  is.ignore();
+  is >> img->width;
+  is >> img->height;
+
+  Matrix_init(&img->red_channel, img->width, img->height);
+  Matrix_init(&img->green_channel, img->width, img->height);
+  Matrix_init(&img->blue_channel, img->width, img->height);
+
+  is.ignore();
+
+  for(int row = 0; row < img->height; ++row){
+    for(int col = 0; col < img->width; ++col){
+      is >> *Matrix_at(&img->red_channel, row, col);
+      is >> *Matrix_at(&img->green_channel, row, col);
+      is >> *Matrix_at(&img->blue_channel, row, col);
+    }
+  }
 }
 
 // REQUIRES: img points to a valid Image
@@ -35,20 +56,33 @@ void Image_init(Image* img, std::istream& is) {
 //           int is followed by a space. This means that there will be an
 //           "extra" space at the end of each line. See the project spec
 //           for an example.
-void Image_print(const Image* img, std::ostream& os) {
-  assert(false); // TODO Replace with your implementation!
+void Image_print(const Image* img, std::ostream& os){
+  os << "P3" << std::endl;
+  os << Image_width(img) << " " << Image_height(img) << std::endl;
+  os << "255" << std::endl;
+
+  Pixel storing;
+  for(int row = 0; row < Image_height(img); row++){
+    for(int col = 0; col < Image_width(img); col++){
+      storing = Image_get_pixel(img, row, col);
+      os << storing.r << " " << storing.g << " " << storing.b << " ";
+    }
+          os << std::endl;
+
+  }
 }
+
 
 // REQUIRES: img points to a valid Image
 // EFFECTS:  Returns the width of the Image.
 int Image_width(const Image* img) {
-  assert(false); // TODO Replace with your implementation!
+  return img->width;
 }
 
 // REQUIRES: img points to a valid Image
 // EFFECTS:  Returns the height of the Image.
 int Image_height(const Image* img) {
-  assert(false); // TODO Replace with your implementation!
+  return img->height;
 }
 
 // REQUIRES: img points to a valid Image
@@ -56,7 +90,11 @@ int Image_height(const Image* img) {
 //           0 <= column && column < Image_width(img)
 // EFFECTS:  Returns the pixel in the Image at the given row and column.
 Pixel Image_get_pixel(const Image* img, int row, int column) {
-  assert(false); // TODO Replace with your implementation!
+  Pixel result;
+  result.r = *Matrix_at(&img->red_channel, row, column);
+  result.g = *Matrix_at(&img->green_channel, row, column);
+  result.b = *Matrix_at(&img->blue_channel, row, column);
+  return result;
 }
 
 // REQUIRES: img points to a valid Image
@@ -66,12 +104,16 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
 // EFFECTS:  Sets the pixel in the Image at the given row and column
 //           to the given color.
 void Image_set_pixel(Image* img, int row, int column, Pixel color) {
-  assert(false); // TODO Replace with your implementation!
+  *Matrix_at(&img->red_channel, row, column) = color.r;
+  *Matrix_at(&img->green_channel, row, column) = color.g;
+  *Matrix_at(&img->blue_channel, row, column) = color.b;
 }
 
 // REQUIRES: img points to a valid Image
 // MODIFIES: *img
 // EFFECTS:  Sets each pixel in the image to the given color.
 void Image_fill(Image* img, Pixel color) {
-  assert(false); // TODO Replace with your implementation!
+  Matrix_fill(&img->red_channel, color.r);
+  Matrix_fill(&img->green_channel, color.g);
+  Matrix_fill(&img->blue_channel, color.b);
 }
