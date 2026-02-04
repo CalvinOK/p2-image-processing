@@ -22,22 +22,29 @@ void Image_init(Image* img, int width, int height) {
 //           from the given input stream.
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
-  is.ignore();
-  is.ignore();
-  is >> img->width;
-  is >> img->height;
+  int num;
+  std::string type;
+  std::vector<int> data_v;
+  is >> type;
+  while (is >> num) {
+      data_v.push_back(num);
+  }
 
-  Matrix_init(&img->red_channel, img->width, img->height);
-  Matrix_init(&img->green_channel, img->width, img->height);
-  Matrix_init(&img->blue_channel, img->width, img->height);
+  img->width = data_v[0];
+  img->height = data_v[1];
 
-  is.ignore();
+  int imWidth = Image_width(img);
+  int imHeight = Image_height(img);
 
-  for(int row = 0; row < img->height; ++row){
-    for(int col = 0; col < img->width; ++col){
-      is >> *Matrix_at(&img->red_channel, row, col);
-      is >> *Matrix_at(&img->green_channel, row, col);
-      is >> *Matrix_at(&img->blue_channel, row, col);
+  Matrix_init(&img->red_channel, imWidth, imHeight);
+  Matrix_init(&img->green_channel, imWidth, imHeight);
+  Matrix_init(&img->blue_channel, imWidth, imHeight);
+
+  for(int row = 0; row < imHeight; ++row){
+    for(int col = 0; col < imWidth; ++col){
+      *Matrix_at(&img->red_channel, row, col) = data_v[3*(row*imWidth + col)+3];
+      *Matrix_at(&img->green_channel, row, col) = data_v[3*(row*imWidth+ col)+4];
+      *Matrix_at(&img->blue_channel, row, col) = data_v[3*(row*imWidth + col)+5];
     }
   }
 }
@@ -57,13 +64,16 @@ void Image_init(Image* img, std::istream& is) {
 //           "extra" space at the end of each line. See the project spec
 //           for an example.
 void Image_print(const Image* img, std::ostream& os){
+  int imWidth = Image_width(img);
+  int imHeight = Image_height(img);
+  
   os << "P3" << std::endl;
-  os << Image_width(img) << " " << Image_height(img) << std::endl;
+  os << imWidth << " " << imHeight << std::endl;
   os << "255" << std::endl;
 
   Pixel storing;
-  for(int row = 0; row < Image_height(img); row++){
-    for(int col = 0; col < Image_width(img); col++){
+  for(int row = 0; row < imHeight; row++){
+    for(int col = 0; col < imWidth; col++){
       storing = Image_get_pixel(img, row, col);
       os << storing.r << " " << storing.g << " " << storing.b << " ";
     }

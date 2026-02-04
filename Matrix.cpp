@@ -11,7 +11,7 @@ void Matrix_init(Matrix* mat, int width, int height) {
   mat->width = width;
   std::vector<int>v (width*height,0);
   mat->data = v;
-} 
+}
 
 // REQUIRES: mat points to a valid Matrix
 // MODIFIES: os
@@ -93,7 +93,7 @@ void Matrix_fill_border(Matrix* mat, int value) {
   int height = Matrix_height(mat);
   for (int i = 0; i<width; ++i){
     *Matrix_at(mat, 0, i) = value;
-    *Matrix_at(mat, height, i) = value;
+    *Matrix_at(mat, height-1, i) = value;
   }
   for (int i = 1; i<height-1; ++i){
     *Matrix_at(mat, i, 0) = value;
@@ -128,10 +128,10 @@ int Matrix_max(const Matrix* mat) {
 //           If multiple elements are minimal, returns the column of
 //           the leftmost one.
 int Matrix_column_of_min_value_in_row(const Matrix* mat, int row, int column_start, int column_end) {
-  int column = 0;
+  int column = column_start;
   int min = *Matrix_at(mat,row, column_start);
   for (int i = column_start; i<column_end; ++i){
-    if(min > *Matrix_at(mat, row, i)){
+    if(*Matrix_at(mat, row, i) < min){
       min = *Matrix_at(mat, row, i);
       column = i;
     }
@@ -149,7 +149,7 @@ int Matrix_column_of_min_value_in_row(const Matrix* mat, int row, int column_sta
 int Matrix_min_value_in_row(const Matrix* mat, int row, int column_start, int column_end) {
   int min = *Matrix_at(mat,row, column_start);
   for (int i = column_start; i<column_end; ++i){
-    if(min > *Matrix_at(mat, row, i)){
+    if(*Matrix_at(mat, row, i) < min){
       min = *Matrix_at(mat, row, i);
     }
   }
