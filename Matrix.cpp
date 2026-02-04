@@ -76,8 +76,8 @@ const int* Matrix_at(const Matrix* mat, int row, int column) {
 void Matrix_fill(Matrix* mat, int value) {
   int width = Matrix_width(mat);
   int height = Matrix_height(mat);
-  for (int i = 0; i < width; ++i){
-    for (int j = 0; j< height; ++j){
+  for (int i = 0; i < height; ++i){
+    for (int j = 0; j< width; ++j){
         *Matrix_at(mat,i,j) = value;
     }
   }
