@@ -128,15 +128,15 @@ int Matrix_max(const Matrix* mat) {
 //           If multiple elements are minimal, returns the column of
 //           the leftmost one.
 int Matrix_column_of_min_value_in_row(const Matrix* mat, int row, int column_start, int column_end) {
-  int column = column_start;
+  int col = column_start;
   int min = *Matrix_at(mat,row, column_start);
-  for (int col = column_start; col <column_end; ++col){
-    if(*Matrix_at(mat, row, col) < min){
-      min = *Matrix_at(mat, row, col);
-      column = col;
+  for (int i = column_start; i<column_end; ++i){
+    if(*Matrix_at(mat, row, i) < min){
+      min = *Matrix_at(mat, row, i);
+      col = i;
     }
   }
-  return column;
+  return col;
 }
 
 // REQUIRES: mat points to a valid Matrix
