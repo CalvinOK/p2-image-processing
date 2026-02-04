@@ -209,7 +209,7 @@ TEST(test_Matrix_column_of_min_value_in_row_1) {
   *Matrix_at(&mat,2,1) = 12;
   *Matrix_at(&mat,2,2) = 12;
   
-  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat,2,0,2), 3);
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat,2,0,2), 1);
 }
 
 TEST(test_Matrix_column_of_min_value_in_row_2) {
