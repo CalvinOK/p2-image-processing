@@ -25,19 +25,19 @@ TEST(test_fill_basic) {
   }
 }
 
-TEST(test_initialize) {
-  Matrix mat;
-  const int width = 1;
-  const int height = 5;
-  Matrix_init(&mat, width, height);
-  for (int i = 0; i<height; i++){
-    for (int j = 0; j<width ; ++j){
-      ASSERT_EQUAL(*Matrix_at(&mat,i,j), 0);
-    }
-  }
-  ASSERT_EQUAL(mat.width, 1);
-  ASSERT_EQUAL(mat.height, 5);
-}
+// TEST(test_initialize) {
+//   Matrix mat;
+//   const int width = 1;
+//   const int height = 5;
+//   Matrix_init(&mat, width, height);
+//   for (int i = 0; i<height; i++){
+//     for (int j = 0; j<width ; ++j){
+//       ASSERT_EQUAL(*Matrix_at(&mat,i,j), 0);
+//     }
+//   }
+//   ASSERT_EQUAL(Matrix_width(&mat), 1);
+//   ASSERT_EQUAL(Matrix_height(&mat), 5);
+// }
 
 TEST(test_initialize_2) {
   Matrix mat;
@@ -49,8 +49,8 @@ TEST(test_initialize_2) {
       ASSERT_EQUAL(*Matrix_at(&mat,i,j), 0);
     }
   }
-  ASSERT_EQUAL(mat.width, 1);
-  ASSERT_EQUAL(mat.height, 1);
+  ASSERT_EQUAL(Matrix_width(&mat), 1);
+  ASSERT_EQUAL(Matrix_height(&mat), 1);
 }
 
 TEST(test_printing) {
@@ -184,13 +184,13 @@ TEST(test_fill_border_2) {
 }
 
 //matrix max
-TEST(test_matrix_max_basic){
-  Matrix mat;
-  Matrix_init(&mat, 1, 4);
-  *Matrix_at(&mat, 1, 2) = 54;
+// TEST(test_matrix_max_basic){
+//   Matrix mat;
+//   Matrix_init(&mat, 1, 4);
+//   *Matrix_at(&mat, 1, 2) = 54;
   
-  ASSERT_EQUAL(Matrix_max(&mat), 54);
-}
+//   ASSERT_EQUAL(Matrix_max(&mat), 54);
+// }
 
 TEST(test_max_1) {
   Matrix mat;

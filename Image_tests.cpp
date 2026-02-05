@@ -58,8 +58,8 @@ TEST(test_im_init_basic){
   ASSERT_EQUAL(Image_get_pixel(&img, 0, 2).g, 0);
   ASSERT_EQUAL(Image_get_pixel(&img, 0, 2).b, 0);
 
-  ASSERT_EQUAL(img.width, 1);
-  ASSERT_EQUAL(img.height, 3);
+  ASSERT_EQUAL(Image_width(&img), 1);
+  ASSERT_EQUAL(Image_height(&img), 3);
 }
 // image init 2
 TEST(test_init_from_istream){
@@ -77,8 +77,8 @@ TEST(test_init_from_istream){
   ASSERT_EQUAL(Image_get_pixel(&img, 0, 1).g, 255);
   ASSERT_EQUAL(Image_get_pixel(&img, 0, 1).b, 255);
   
-  ASSERT_EQUAL(img.width, 1);
-  ASSERT_EQUAL(img.height, 2);
+  ASSERT_EQUAL(Image_width(&img), 1);
+  ASSERT_EQUAL(Image_height(&img), 2);
 }
 
 // image print
