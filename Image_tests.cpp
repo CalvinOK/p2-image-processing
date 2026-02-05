@@ -64,11 +64,40 @@ TEST(test_im_init_basic){
 // image init 2
 TEST(test_init_from_istream){
   stringstream stream;
-  stream << 
+  stream << "P3\n1 2\n255\n0 0 255 255 255 255\n";
+
+  Image* img = new Image;
+  Image_init(img, stream);
+
+  ASSERT_EQUAL(Image_get_pixel(img, 0, 0).r, 0);
+  ASSERT_EQUAL(Image_get_pixel(img, 0, 0).g, 0);
+  ASSERT_EQUAL(Image_get_pixel(img, 0, 0).b, 255);
+
+  ASSERT_EQUAL(Image_get_pixel(img, 0, 1).r, 255);
+  ASSERT_EQUAL(Image_get_pixel(img, 0, 1).g, 255);
+  ASSERT_EQUAL(Image_get_pixel(img, 0, 1).b, 255);
+  
+  ASSERT_EQUAL(img->width, 1);
+  ASSERT_EQUAL(img->height, 2);
 }
 
 // image print
+TEST(test_print_1) {
+  Image img;
+  const Pixel red = {255, 0, 0};
+  Image_init(&img, 1, 1);
+  Image_set_pixel(&img, 0, 0, red);
 
+  // Capture our output
+  ostringstream s;
+  Image_print(&img, s);
+
+  // Correct output
+  ostringstream correct;
+  correct << "P3\n1 1\n255\n";
+  correct << "255 0 0 \n";
+  ASSERT_EQUAL(s.str(), correct.str());
+}
 
 //image width
 TEST(test_im_width_1) {
