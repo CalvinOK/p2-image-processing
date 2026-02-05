@@ -280,6 +280,17 @@ TEST(test_Matrix_column_of_min_value_in_row_6) {
   ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat,0,0,3), 0);
 }
 
+TEST(test_Matrix_col_of_min_val_bound){
+  Matrix mat;
+  const int width = 3;
+  const int height = 1;
+  Matrix_init(&mat, width, height);
+  Matrix_fill(&mat, 1);
+  *Matrix_at(&mat, 0, 2) = -3;
+
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat,0,0,2), 0);
+}
+
 //testing edge cases for columns
 
 TEST(test_Matrix_column_of_min_value_in_row_right_1) {
