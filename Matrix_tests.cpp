@@ -29,24 +29,28 @@ TEST(test_initialize) {
   Matrix mat;
   const int width = 1;
   const int height = 5;
-  Matrix_init(&mat, 1, 5);
+  Matrix_init(&mat, width, height);
   for (int i = 0; i<width; i++){
     for (int j = 0; j<height ; ++j){
       ASSERT_EQUAL(*Matrix_at(&mat,i,j), 0);
     }
   }
+  ASSERT_EQUAL(mat.width, 1);
+  ASSERT_EQUAL(mat.height, 5);
 }
 
 TEST(test_initialize_2) {
   Matrix mat;
   const int width = 1;
-  const int height = 5;
-  Matrix_init(&mat, 1, 5);
+  const int height = 1;
+  Matrix_init(&mat, width, height);
   for (int i = 0; i<width; i++){
     for (int j = 0; j<height ; ++j){
       ASSERT_EQUAL(*Matrix_at(&mat,i,j), 0);
     }
   }
+  ASSERT_EQUAL(mat.width, 1);
+  ASSERT_EQUAL(mat.height, 1);
 }
 
 TEST(test_printing) {
@@ -184,6 +188,7 @@ TEST(test_max_1) {
   const int width = 1;
   const int height = 2;
   Matrix_init(&mat, width, height);
+  Matrix_fill(&mat,-1);
   Matrix_fill_border(&mat, 1);
   *Matrix_at(&mat,0,1) = 11;
   ASSERT_EQUAL(Matrix_max(&mat), 11);
@@ -194,8 +199,9 @@ TEST(test_max_2) {
   const int width = 2;
   const int height = 10;
   Matrix_init(&mat, width, height);
+  Matrix_fill(&mat,-1);
   Matrix_fill_border(&mat, 1);
-  *Matrix_at(&mat,2,10) = 12;
+  *Matrix_at(&mat,1,9) = 12;
   ASSERT_EQUAL(Matrix_max(&mat), 12);
 }
 
@@ -220,6 +226,49 @@ TEST(test_Matrix_column_of_min_value_in_row_2) {
   *Matrix_at(&mat,2,4) = 2;
   
   ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat,2,0,2), 0);
+}
+
+TEST(test_Matrix_column_of_min_value_in_row_3) {
+  Matrix mat;
+  const int width = 4;
+  const int height = 1;
+  Matrix_init(&mat, width, height);
+  Matrix_fill(&mat, -1);
+  *Matrix_at(&mat,0,2) = -5;
+  
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat,0,0,0), 0);
+}
+
+TEST(test_Matrix_column_of_min_value_in_row_4) {
+  Matrix mat;
+  const int width = 4;
+  const int height = 1;
+  Matrix_init(&mat, width, height);
+  Matrix_fill(&mat, -1);
+  *Matrix_at(&mat,0,2) = -5;
+  
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat,0,0,3), 2);
+}
+
+TEST(test_Matrix_column_of_min_value_in_row_5) {
+  Matrix mat;
+  const int width = 4;
+  const int height = 1;
+  Matrix_init(&mat, width, height);
+  Matrix_fill(&mat, -1);
+  *Matrix_at(&mat,0,2) = -5;
+  
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat,0,1,3), 2);
+}
+
+TEST(test_Matrix_column_of_min_value_in_row_6) {
+  Matrix mat;
+  const int width = 4;
+  const int height = 1;
+  Matrix_init(&mat, width, height);
+  Matrix_fill(&mat, -1);
+  
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat,0,0,3), 0);
 }
 
 //matrix at
@@ -248,9 +297,9 @@ TEST(test_matrix_max_basic){
   Matrix mat;
   Matrix_init(&mat, 1, 4);
   Matrix_fill(&mat, 3);
-  *Matrix_at(&mat, 0, 3) = 534;
+  *Matrix_at(&mat, 0, 2) = 54;
   
-  ASSERT_EQUAL(Matrix_max(&mat), 534);
+  ASSERT_EQUAL(Matrix_max(&mat), 54);
 }
 
 //matrix min value in row

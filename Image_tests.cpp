@@ -44,41 +44,41 @@ TEST(test_print_basic) {
 
 //image init 1
 TEST(test_im_init_basic){
-  Image* img = new Image;
-  Image_init(img, 1, 3);
-  Image_fill(img, {0, 0, 0});
+  Image img;
+  Image_init(&img, 1, 3);
+  Image_fill(&img, {0, 0, 0});
   
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 0).r, 0);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 0).g, 0);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 0).b, 0);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 1).r, 0);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 1).g, 0);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 1).b, 0);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 2).r, 0);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 2).g, 0);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 2).b, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 0).r, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 0).g, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 0).b, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 1).r, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 1).g, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 1).b, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 2).r, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 2).g, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 2).b, 0);
 
-  ASSERT_EQUAL(img->width, 1);
-  ASSERT_EQUAL(img->height, 3);
+  ASSERT_EQUAL(img.width, 1);
+  ASSERT_EQUAL(img.height, 3);
 }
 // image init 2
 TEST(test_init_from_istream){
   stringstream stream;
   stream << "P3\n1 2\n255\n0 0 255 255 255 255\n";
 
-  Image* img = new Image;
-  Image_init(img, stream);
+  Image img;
+  Image_init(&img, stream);
 
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 0).r, 0);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 0).g, 0);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 0).b, 255);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 0).r, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 0).g, 0);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 0).b, 255);
 
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 1).r, 255);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 1).g, 255);
-  ASSERT_EQUAL(Image_get_pixel(img, 0, 1).b, 255);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 1).r, 255);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 1).g, 255);
+  ASSERT_EQUAL(Image_get_pixel(&img, 0, 1).b, 255);
   
-  ASSERT_EQUAL(img->width, 1);
-  ASSERT_EQUAL(img->height, 2);
+  ASSERT_EQUAL(img.width, 1);
+  ASSERT_EQUAL(img.height, 2);
 }
 
 // image print
@@ -193,17 +193,17 @@ TEST(test_im_set_pixel_2) {
   ASSERT_EQUAL(Image_get_pixel(&img, 0, 0).b, white.b);
 }
 
-TEST(test_im_set_pixel_3) {
-  Image img;
-  const Pixel blue = {0, 0, 255};
+// TEST(test_im_set_pixel_3) {
+//   Image img;
+//   const Pixel blue = {0, 0, 255};
 
-  Image_init(&img,3, 4);
-  Image_set_pixel(&img, 2, 3, blue);
+//   Image_init(&img,3, 4);
+//   Image_set_pixel(&img, 2, 3, blue);
 
-  ASSERT_EQUAL(Image_get_pixel(&img, 2,3).r, blue.r);
-  ASSERT_EQUAL(Image_get_pixel(&img, 2, 3).g, blue.g);
-  ASSERT_EQUAL(Image_get_pixel(&img, 2, 3).b, blue.b);
-}
+//   ASSERT_EQUAL(Image_get_pixel(&img, 2, 3).r, blue.r);
+//   ASSERT_EQUAL(Image_get_pixel(&img, 2, 3).g, blue.g);
+//   ASSERT_EQUAL(Image_get_pixel(&img, 2, 3).b, blue.b);
+// }
 
 //image fill
 TEST(test_im_fill_1) {

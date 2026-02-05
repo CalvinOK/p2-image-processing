@@ -162,7 +162,8 @@ vector<int> find_minimal_vertical_seam(const Matrix* cost) {
       } else if(currentCol == width-1){
         currentCol = Matrix_column_of_min_value_in_row(cost, row-1, currentCol-1, width);
       } else {
-        currentCol = Matrix_column_of_min_value_in_row(cost, row-1, currentCol-1, currentCol+2);
+        currentCol = Matrix_column_of_min_value_in_row(cost,
+          row-1, currentCol-1, currentCol+2);
       }
       trace.insert(trace.begin(), currentCol);
     }
@@ -186,8 +187,8 @@ void remove_vertical_seam(Image *img, const vector<int> &seam) {
   int imWidth = Image_width(img);
   int imHeight = Image_height(img);
 
-  Image* aux = new Image;
-  Image_init(aux, imWidth-1, imHeight);
+  Image aux;
+  Image_init(&aux, imWidth-1, imHeight);
 
   bool passed_cut = false;
   for(int row = 0; row < imHeight; ++row){
@@ -195,15 +196,15 @@ void remove_vertical_seam(Image *img, const vector<int> &seam) {
       if(col == seam[row]){
         passed_cut = true;
       } else if(!passed_cut && col != seam[row]){
-        Image_set_pixel(aux, row, col, Image_get_pixel(img, row, col));
+        Image_set_pixel(&aux, row, col, Image_get_pixel(img, row, col));
       } else if(passed_cut && col != seam[row]){
-        Image_set_pixel(aux, row, col-1, Image_get_pixel(img, row, col));
+        Image_set_pixel(&aux, row, col-1, Image_get_pixel(img, row, col));
       }
     }
     passed_cut = false;
   }
 
-  *img = *aux;
+  *img = aux;
 }
 
 
@@ -218,14 +219,14 @@ void remove_vertical_seam(Image *img, const vector<int> &seam) {
 void seam_carve_width(Image *img, int newWidth) {
   int imWidth = Image_width(img);
   for (int i = 0; i<imWidth-newWidth; ++i){
-    Matrix* energy = new Matrix;
-    Matrix* cost = new Matrix;
-    Matrix_init(energy, Image_width(img), Image_height(img));
+    Matrix energy;
+    Matrix cost;
+    Matrix_init(&energy, Image_width(img), Image_height(img));
 
-    compute_energy_matrix(img, energy);
-    compute_vertical_cost_matrix(energy, cost);
+    compute_energy_matrix(img, &energy);
+    compute_vertical_cost_matrix(&energy, &cost);
 
-    vector<int> seam = find_minimal_vertical_seam(cost);
+    vector<int> seam = find_minimal_vertical_seam(&cost);
     remove_vertical_seam(img, seam);
   }
 }
