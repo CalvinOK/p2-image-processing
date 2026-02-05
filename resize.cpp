@@ -18,6 +18,7 @@ int main(int argc, char *argv[]){
     
     Image img;
     ifstream is(argv[1]);
+    ofstream im_Trim(argv[2]);
 
     if (!is.is_open()) {
         cout << "Error opening file: " << argv[1] << endl;
@@ -27,16 +28,17 @@ int main(int argc, char *argv[]){
     Image_init(&img, is);
 
     //void Image_init(Image* img, std::istream& is) {
-    if(!(atoi(argv[4]) > 0) || !(atoi(argv[4]) <= Image_width(&img))){
+    if(!(atoi(argv[3]) > 0) || !(atoi(argv[3]) <= Image_width(&img))){
         cout << "Usage: resize.exe IN_FILENAME OUT_FILENAME WIDTH [HEIGHT]\n"
      << "WIDTH and HEIGHT must be less than or equal to original" << endl;
      return 1;
     }
-    if(!(atoi(argv[5]) > 0) || !(atoi(argv[4]) <= Image_height(&img))){
+    if(!(atoi(argv[4]) > 0) || !(atoi(argv[4]) <= Image_height(&img))){
         cout << "Usage: resize.exe IN_FILENAME OUT_FILENAME WIDTH [HEIGHT]\n"
      << "WIDTH and HEIGHT must be less than or equal to original" << endl;
      return 1;
     }
-
-    seam_carve(&img,atoi(argv[4]), atoi(argv[5]));
+    seam_carve(&img,atoi(argv[3]), atoi(argv[4]));
+    Image_print(&img, im_Trim);
+    im_Trim.close();
 }
