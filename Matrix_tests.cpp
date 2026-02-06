@@ -199,7 +199,7 @@ TEST(test_max_1) {
   Matrix_init(&mat, width, height);
   Matrix_fill(&mat,-1);
   Matrix_fill_border(&mat, 1);
-  *Matrix_at(&mat,0,1) = 11;
+  *Matrix_at(&mat,0,0) = 11;
   ASSERT_EQUAL(Matrix_max(&mat), 11);
 }
 
@@ -210,7 +210,7 @@ TEST(test_max_2) {
   Matrix_init(&mat, width, height);
   Matrix_fill(&mat,-1);
   Matrix_fill_border(&mat, 1);
-  *Matrix_at(&mat,1,9) = 12;
+  *Matrix_at(&mat,9,1) = 12;
   ASSERT_EQUAL(Matrix_max(&mat), 12);
 }
 
